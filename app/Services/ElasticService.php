@@ -42,6 +42,24 @@ class ElasticService
     {
         return $this->client->indices()->delete(['index' => $index])->asArray();
     }
+    public function deleteAllIndex(string $index)
+    {
+        // Check if $index is an alias
+    $client = $this->client;
+    $aliasResponse = $client->indices()->getAlias(['name' => $index]);
+    $indices = array_keys($aliasResponse->asArray());
+
+    if (!empty($indices)) {
+        // Delete all indices that the alias points to
+        foreach ($indices as $realIndex) {
+            logger("Deleting index: $realIndex");
+            $client->indices()->delete(['index' => $realIndex]);
+        }
+    } else {
+        // If not an alias, try to delete as index
+        $client->indices()->delete(['index' => $index]);
+    }
+}
 
     public function createIndex(string $index, array $settings = []): array
     {

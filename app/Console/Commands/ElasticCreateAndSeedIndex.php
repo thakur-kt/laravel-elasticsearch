@@ -35,7 +35,7 @@ class ElasticCreateAndSeedIndex extends Command
         $index = $this->argument('index');
 
         $this->info("Creating Elasticsearch index: {$index}");
-
+//  $this->elastic->deleteIndex($index);
         try {
             $this->elastic->createIndex($index);
             $this->info("Index created successfully.");

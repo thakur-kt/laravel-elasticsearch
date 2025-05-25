@@ -159,7 +159,6 @@ return [
         /*
          * Package Service Providers...
          */
-// Matchish\ScoutElasticSearch\ScoutElasticSearchServiceProvider::class,
 
         /*
          * Application Service Providers...
