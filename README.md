@@ -1,6 +1,6 @@
 # Product Catalog Search System
 
-A Laravel-based application for managing a product catalog with full-text search powered by Elasticsearch. This project demonstrates how to integrate Laravel and Elasticsearch using a custom service class for scalable, high-performance search.
+A Laravel-based application for managing a product catalog with full-text search powered by Elasticsearch. This project demonstrates how to integrate Laravel and Elasticsearch using a custom service class for scalable, high-performance search. The frontend search UI is built with Vue.js and styled using Tailwind CSS.
 
 ---
 
@@ -10,6 +10,8 @@ A Laravel-based application for managing a product catalog with full-text search
 - **Full-Text Search**: Fast, flexible search using Elasticsearch.
 - **Custom Elastic Service**: Direct integration with Elasticsearch using a custom service class (no Laravel Scout).
 - **Custom Artisan Command**: Quickly create and seed Elasticsearch indices from your database.
+- **Vue.js Frontend**: Real-time product search with debounce and delete functionality.
+- **Tailwind CSS**: Modern, responsive UI styling.
 
 ---
 
@@ -19,6 +21,8 @@ A Laravel-based application for managing a product catalog with full-text search
 - Composer
 - MySQL (or compatible database)
 - Elasticsearch 8.x
+- Node.js & npm (for frontend assets, if you want to build locally)
+- Docker (optional, for running Elasticsearch/Kibana)
 
 ---
 
@@ -58,7 +62,13 @@ A Laravel-based application for managing a product catalog with full-text search
     php artisan migrate --seed
     ```
 
-6. **(Optional) Start Laravel development server**
+6. **(Optional) Build frontend assets**
+    ```sh
+    npm install
+    npm run dev
+    ```
+
+7. **(Optional) Start Laravel development server**
     ```sh
     php artisan serve
     ```
@@ -90,7 +100,13 @@ php artisan elastic:create-seed-index
 - `app/Services/ElasticService.php`  
   Custom service class for interacting with Elasticsearch.
 - `app/Models/Product.php`  
-  Eloquent model for products.
+  Eloquent model for products, with automatic indexing on create/update.
+- `app/Http/Controllers/ProductController.php`  
+  API controller for CRUD and search operations.
+- `resources/js/components/ProductSearch.vue`  
+  Vue.js component for real-time product search and management.
+- `resources/views/welcome.blade.php`  
+  Main Blade view, includes Vue.js and Tailwind CSS.
 
 ---
 
@@ -109,9 +125,23 @@ php artisan elastic:create-seed-index
 
 ## Running Elasticsearch and Kibana with Docker
 
-You can quickly start Elasticsearch and Kibana using Docker:
-cd laravel-elasticsearch
-docker composer up -d 
+You can quickly start Elasticsearch and Kibana using Docker Compose:
+
+```sh
+docker compose up -d
+```
+
+Or, to run them individually:
+
+**Start Elasticsearch:**
+```sh
+docker run -d --name elasticsearch -p 9200:9200 -e "discovery.type=single-node" elasticsearch:8.13.0
+```
+
+**Start Kibana:**
+```sh
+docker run -d --name kibana -p 5601:5601 --link elasticsearch:kibana elastic/kibana:8.13.0
+```
 
 **Test in browser:**
 

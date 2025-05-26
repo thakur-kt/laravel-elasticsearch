@@ -18,4 +18,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::apiResource('products', ProductController::class);
+Route::get('/products', [ProductController::class, 'index']);         // for search
+Route::post('/products', [ProductController::class, 'store']);        // create
+Route::get('/products/{product}', [ProductController::class, 'show']);     // load for edit
+Route::put('/products/{product}', [ProductController::class, 'update']);   // update
+Route::delete('/products/{product}', [ProductController::class, 'destroy']);   // delete
