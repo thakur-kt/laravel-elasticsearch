@@ -9,7 +9,9 @@ A Laravel-based application for managing a product catalog with full-text search
 - **Product Management**: Store and manage products using Eloquent models.
 - **Full-Text Search**: Fast, flexible search using Elasticsearch.
 - **Custom Elastic Service**: Direct integration with Elasticsearch using a custom service class (no Laravel Scout).
-- **Custom Artisan Command**: Quickly create and seed Elasticsearch indices from your database.
+- **Custom Artisan Command**: 
+ -Quickly create and seed Elasticsearch indices from your database.
+ -Remove stale product data from Elasticsearch that no longer exists in the database
 - **Vue.js Frontend**: Real-time product search with debounce and delete functionality.
 - **Tailwind CSS**: Modern, responsive UI styling.
 
